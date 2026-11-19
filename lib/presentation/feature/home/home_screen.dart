@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_strings.dart';
+import '../../../core/expense.dart';
+import 'widget/expense_card.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final List<Expense> _expenses = demoExpenses;
 
   @override
   Widget build(BuildContext context) {
@@ -69,48 +78,12 @@ class HomeScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: ListView.builder(
-                    itemCount: 18,
+                    itemCount: _expenses.length,
                     itemBuilder: (context, index) {
+                      var expense = _expenses[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.cardColor,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.grey.withValues(alpha: 0.3),
-                              width: 1.0,
-                            ),
-                            boxShadow: AppColors.cardShadow,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '${index + 1}. Title',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const Text(
-                                "৳ 150.00",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: ExpenseCard(expense: expense, onTap: () {},index:index),
                       );
                     },
                   ),

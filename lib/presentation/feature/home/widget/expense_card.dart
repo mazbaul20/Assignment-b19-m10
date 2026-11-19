@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+
+import '../../../../core/app_colors.dart';
+import '../../../../core/expense.dart';
+
+class ExpenseCard extends StatelessWidget {
+  const ExpenseCard({
+    super.key,
+    required this.expense,
+    required this.onTap,
+    required this.index,
+  });
+
+  final Expense expense;
+  final VoidCallback onTap;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.grey.withValues(alpha: 0.3),
+          width: 1.0,
+        ),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '${index + 1}. ${expense.title}',
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+          Text(
+            "৳ ${expense.amount}",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.delete, color: AppColors.primary),
+          ),
+        ],
+      ),
+    );
+  }
+}
