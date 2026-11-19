@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_strings.dart';
 import '../../../core/expense.dart';
+import '../add_new_expense/add_new_expense_screen.dart';
 import 'widget/expense_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -83,7 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       var expense = _expenses[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: ExpenseCard(expense: expense, onTap: () {},index:index),
+                        child: ExpenseCard(
+                          expense: expense,
+                          onTap: () {},
+                          index: index,
+                        ),
                       );
                     },
                   ),
@@ -95,7 +100,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNewExpenseScreen()),
+          );
+        },
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.background,
         shape: const CircleBorder(),
