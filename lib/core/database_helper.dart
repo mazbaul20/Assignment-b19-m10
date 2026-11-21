@@ -42,10 +42,18 @@ class DatabaseHelper {
   } // end get all contacts
 
   //create expense
-  Future<int> createExpense(ExpenseModel expenseModel) async{
+  Future<int> createExpense(ExpenseModel expenseModel) async {
     final db = await database;
     return await db.insert('expenses', expenseModel.toMap());
-  }//end method
+  } //end method
 
+  Future<int> deleteExpense(ExpenseModel expenseModel) async {
+    final db = await database;
 
+    return await db.delete(
+      'expenses',
+      where: 'id = ?',
+      whereArgs: [expenseModel.id],
+    );
+  }
 }

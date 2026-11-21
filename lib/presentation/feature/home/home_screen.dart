@@ -43,6 +43,20 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _deleteExpense(ExpenseModel expenseModel) async {
+    final db = await _db.deleteExpense(expenseModel);
+
+    if (db > 0) {
+      if (!mounted) return;
+      AppSnackbar.show(
+        context,
+        message: AppStrings.expenseDeleteSuccess,
+        backgroundColor: AppColors.success,
+      );
+    }
+    await _loadExpenses();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,6 +154,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 expense: expense,
                                 onTap: () {},
                                 index: index,
+                                onDelete: () {
+                                  _deleteExpense(_expenses[index]);
+                                },
                               ),
                             );
                           },

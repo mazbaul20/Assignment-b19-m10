@@ -23,5 +23,6 @@ class AppStrings {
 
   // Success Messages
   static const String expenseAddedSuccess = "Expense added successfully!";
+  static const String expenseDeleteSuccess = "Expense Deleted successfully!";
   static const String expenseDeletedSuccess = "Expense deleted successfully!";
 }

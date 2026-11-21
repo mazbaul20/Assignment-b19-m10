@@ -41,6 +41,13 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
   }
 
   @override
+  void dispose() {
+    _titleController.dispose();
+    _amountController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

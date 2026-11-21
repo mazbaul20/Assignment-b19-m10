@@ -9,10 +9,12 @@ class ExpenseCard extends StatelessWidget {
     required this.expense,
     required this.onTap,
     required this.index,
+    required this.onDelete,
   });
 
   final ExpenseModel expense;
   final VoidCallback onTap;
+  final VoidCallback onDelete;
   final int index;
 
   @override
@@ -41,7 +43,7 @@ class ExpenseCard extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: onDelete,
             icon: const Icon(Icons.delete, color: AppColors.primary),
           ),
         ],
