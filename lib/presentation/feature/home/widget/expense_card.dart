@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/expense_model.dart';
+import 'delete_confirmation.dart';
 
 class ExpenseCard extends StatelessWidget {
   const ExpenseCard({
@@ -41,7 +42,16 @@ class ExpenseCard extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           IconButton(
-            onPressed: onDelete,
+            onPressed: () {
+              DeleteConfirmDialog.show(
+                context: context,
+                title: 'Delete Expense?',
+                message: 'Are you sure you want to delete "${expense.title}"?',
+                onConfirm: () {
+                  onDelete();
+                },
+              );
+            },
             icon: const Icon(Icons.delete, color: AppColors.primary),
           ),
         ],

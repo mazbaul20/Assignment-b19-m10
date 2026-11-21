@@ -148,8 +148,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         )
                       : ListView.builder(
-                          itemCount: _expenses.length,
+                          itemCount: _expenses.length + 1,
                           itemBuilder: (context, index) {
+                            if (index == _expenses.length) {
+                              return const SizedBox(height: 50);
+                            }
                             var expense = _expenses[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 8),
