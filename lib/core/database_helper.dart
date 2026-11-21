@@ -2,7 +2,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'expense.dart';
+import 'expense_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -34,10 +34,18 @@ class DatabaseHelper {
       ''');
   } // end method
 
-  Future<List<Expense>> getAllExpenses() async {
+  Future<List<ExpenseModel>> getAllExpenses() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('expenses');
 
-    return maps.map((map) => Expense.fromMap(map)).toList();
+    return maps.map((map) => ExpenseModel.fromMap(map)).toList();
   } // end get all contacts
+
+  //create expense
+  Future<int> createExpense(ExpenseModel expenseModel) async{
+    final db = await database;
+    return await db.insert('expenses', expenseModel.toMap());
+  }//end method
+
+
 }

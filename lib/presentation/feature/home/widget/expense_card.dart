@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/app_colors.dart';
-import '../../../../core/expense.dart';
+import '../../../../core/expense_model.dart';
 
 class ExpenseCard extends StatelessWidget {
   const ExpenseCard({
@@ -11,7 +11,7 @@ class ExpenseCard extends StatelessWidget {
     required this.index,
   });
 
-  final Expense expense;
+  final ExpenseModel expense;
   final VoidCallback onTap;
   final int index;
 

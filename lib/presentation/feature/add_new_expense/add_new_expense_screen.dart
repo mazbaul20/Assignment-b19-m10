@@ -1,3 +1,5 @@
+import 'package:assignment_b19_m10/core/database_helper.dart';
+import 'package:assignment_b19_m10/core/expense_model.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_strings.dart';
@@ -10,10 +12,26 @@ class AddNewExpenseScreen extends StatefulWidget {
 }
 
 class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
-  final TextEditingController _amountController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  final DatabaseHelper _db = DatabaseHelper();
+
+  Future<void> addExpense() async {
+    final expense = ExpenseModel(
+      title: _titleController.text.trim(),
+      amount: double.parse(_amountController.text.trim()),
+    );
+
+    await _db.createExpense(expense);
+
+    _titleController.clear();
+    _amountController.clear();
+    if (!mounted) return;
+    Navigator.pop(context, true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +117,10 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await addExpense();
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,

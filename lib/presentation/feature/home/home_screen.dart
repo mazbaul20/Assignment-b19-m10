@@ -2,7 +2,7 @@ import 'package:assignment_b19_m10/core/database_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_strings.dart';
-import '../../../core/expense.dart';
+import '../../../core/expense_model.dart';
 import '../add_new_expense/add_new_expense_screen.dart';
 import 'widget/expense_card.dart';
 
@@ -14,15 +14,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Expense> _expenses = [];
+  List<ExpenseModel> _expenses = [];
 
   final DatabaseHelper _db = DatabaseHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExpenses();
+  }
 
   Future<void> _loadExpenses() async {
     final expenses = await _db.getAllExpenses();
     setState(() {
       _expenses = expenses;
     });
+  }
+
+  Future<void> _goToAddNewExpensePage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddNewExpenseScreen()),
+    );
+
+    if (result == true) {
+      await _loadExpenses();
+    }
   }
 
   @override
@@ -135,10 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddNewExpenseScreen()),
-          );
+          _goToAddNewExpensePage();
         },
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.background,
