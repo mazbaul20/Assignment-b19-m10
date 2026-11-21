@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<ExpenseModel> _expenses = [];
+  double _totalExpense = 0.0;
 
   final DatabaseHelper _db = DatabaseHelper();
 
@@ -23,13 +24,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadExpenses();
-    _loadTotal();
   }
 
   Future<void> _loadExpenses() async {
     final expenses = await _db.getAllExpenses();
+    final total = await _db.getTotalExpense();
     setState(() {
       _expenses = expenses;
+      _totalExpense = total;
     });
   }
 
@@ -41,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (result == true) {
       await _loadExpenses();
-      await _loadTotal();
     }
   }
 
@@ -57,16 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
     await _loadExpenses();
-    await _loadTotal();
-  }
-
-  double _totalExpense = 0.0;
-
-  Future<void> _loadTotal() async {
-    final total = await _db.getTotalExpense();
-    setState(() {
-      _totalExpense = total;
-    });
   }
 
   @override
@@ -164,7 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.only(bottom: 8),
                               child: ExpenseCard(
                                 expense: expense,
-                                onTap: () {},
                                 index: index,
                                 onDelete: () {
                                   _deleteExpense(_expenses[index]);

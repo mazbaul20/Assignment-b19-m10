@@ -7,13 +7,11 @@ class ExpenseCard extends StatelessWidget {
   const ExpenseCard({
     super.key,
     required this.expense,
-    required this.onTap,
     required this.index,
     required this.onDelete,
   });
 
   final ExpenseModel expense;
-  final VoidCallback onTap;
   final VoidCallback onDelete;
   final int index;
 
