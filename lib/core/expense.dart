@@ -4,6 +4,20 @@ class Expense {
   final double amount;
 
   Expense({this.id, required this.title, required this.amount});
+
+  // convert to map. save in database
+  Map<String, dynamic> toMap() {
+    return {if (id != null) 'id': id, 'title': title, 'amount': amount};
+  }
+
+  // contact object from map
+  factory Expense.fromMap(Map<String, dynamic> map) {
+    return Expense(
+      id: map['id'] as int?,
+      title: map['title'],
+      amount: map['amount'],
+    );
+  }
 }
 
 List<Expense> demoExpenses = [

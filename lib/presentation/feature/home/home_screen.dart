@@ -1,3 +1,4 @@
+import 'package:assignment_b19_m10/core/database_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_strings.dart';
@@ -13,7 +14,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Expense> _expenses = demoExpenses;
+  List<Expense> _expenses = [];
+
+  final DatabaseHelper _db = DatabaseHelper();
+
+  Future<void> _loadExpenses() async {
+    final expenses = await _db.getAllExpenses();
+    setState(() {
+      _expenses = expenses;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,35 +73,59 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  AppStrings.recentExpenses,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: .bold,
-                    fontSize: 16,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ),
+              _expenses.isEmpty
+                  ? Text("")
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        AppStrings.recentExpenses,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontWeight: .bold,
+                          fontSize: 16,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
-                  child: ListView.builder(
-                    itemCount: _expenses.length,
-                    itemBuilder: (context, index) {
-                      var expense = _expenses[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: ExpenseCard(
-                          expense: expense,
-                          onTap: () {},
-                          index: index,
+                  child: _expenses.isEmpty
+                      ? const Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.receipt_long_outlined,
+                                size: 48,
+                                color: AppColors.textSecondary,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'No expenses yet',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: _expenses.length,
+                          itemBuilder: (context, index) {
+                            var expense = _expenses[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: ExpenseCard(
+                                expense: expense,
+                                onTap: () {},
+                                index: index,
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
                 ),
               ),
             ],
