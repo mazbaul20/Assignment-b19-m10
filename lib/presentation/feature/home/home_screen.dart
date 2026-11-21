@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadExpenses();
+    _loadTotal();
   }
 
   Future<void> _loadExpenses() async {
@@ -40,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (result == true) {
       await _loadExpenses();
+      await _loadTotal();
     }
   }
 
@@ -55,6 +57,16 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
     await _loadExpenses();
+    await _loadTotal();
+  }
+
+  double _totalExpense = 0.0;
+
+  Future<void> _loadTotal() async {
+    final total = await _db.getTotalExpense();
+    setState(() {
+      _totalExpense = total;
+    });
   }
 
   @override
@@ -95,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Text(
-                      "৳ 1200.00",
+                      "৳ $_totalExpense",
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: .w700,

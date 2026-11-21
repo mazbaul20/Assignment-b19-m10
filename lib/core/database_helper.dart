@@ -56,4 +56,21 @@ class DatabaseHelper {
       whereArgs: [expenseModel.id],
     );
   }
+
+  Future<double> getTotalExpense() async {
+    final db = await database;
+
+    final result = await db.query(
+      'expenses',
+      columns: ['SUM(amount) as total'],
+    );
+
+    var total = result.first['total'];
+
+    if (total == null) {
+      return 0.0;
+    }
+
+    return double.parse(total.toString());
+  }
 }
