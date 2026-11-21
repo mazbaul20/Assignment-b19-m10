@@ -2,6 +2,7 @@ import 'package:assignment_b19_m10/core/database_helper.dart';
 import 'package:assignment_b19_m10/core/expense_model.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_colors.dart';
+import '../../../core/app_snackbar.dart';
 import '../../../core/app_strings.dart';
 
 class AddNewExpenseScreen extends StatefulWidget {
@@ -30,6 +31,12 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
     _titleController.clear();
     _amountController.clear();
     if (!mounted) return;
+
+    AppSnackbar.show(
+      context,
+      message: AppStrings.expenseAddedSuccess,
+      backgroundColor: AppColors.success,
+    );
     Navigator.pop(context, true);
   }
 
